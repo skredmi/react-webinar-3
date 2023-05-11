@@ -5,7 +5,6 @@ class Store {
   constructor(initState = {}) {
     this.state = initState;
     this.listeners = []; // Слушатели изменений состояния
-    this.selectedCount = 0;
   }
 
   /**
