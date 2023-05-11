@@ -52,6 +52,8 @@ body {
 .Item-title {
   width: 100%;
   padding: 20px 10px;
+  display: flex;
+  gap: 10px;
 }
 
 .Item-actions {
