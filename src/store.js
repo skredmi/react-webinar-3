@@ -1,4 +1,4 @@
-import {generateCode} from "./utils";
+import { generateCode, getTotalPrice } from "./utils";
 
 /**
  * Хранилище состояния приложения
@@ -7,6 +7,10 @@ class Store {
   constructor(initState = {}) {
     this.state = initState;
     this.state.cart = [];
+    this.state.cartDetail = {
+      uniqCount: 0,
+      totalPrice: 0,
+    };
     this.listeners = []; // Слушатели изменений состояния
   }
 
@@ -89,7 +93,7 @@ class Store {
   }
 
   addToCart(code) {
-    const existingItem = this.state.cart.find((item) => item.code === code)
+    const existingItem = this.state.cart.find((item) => item.code === code);
     if (existingItem) {
       this.setState({
         ...this.state,
@@ -113,12 +117,26 @@ class Store {
         ],
       });
     }
+    this.setState({
+      ...this.state,
+      cartDetail: {
+        uniqCount: this.state.cart.length,
+        totalPrice: getTotalPrice(this.state.cart),
+      },
+    });
   }
 
   deleteCartItem(code) {
     this.setState({
       ...this.state,
       cart: this.state.cart.filter((item) => item.code !== code),
+    });
+    this.setState({
+      ...this.state,
+      cartDetail: {
+        uniqCount: this.state.cart.length,
+        totalPrice: getTotalPrice(this.state.cart),
+      },
     });
   }
 }

@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { cn as bem } from "@bem-react/classname";
 import "./style.css";
-import { getTotalPrice, plural } from "../../utils";
+import { plural } from "../../utils";
 
-function Controls({ cart, setIsOpenModal }) {
+function Controls({ cartDetail, setIsOpenModal }) {
   const cn = bem("Controls");
 
   return (
@@ -12,12 +12,12 @@ function Controls({ cart, setIsOpenModal }) {
       <div className={cn("cart")}>
         В корзине:
         <span className={cn("total")}>
-          {cart.length
-            ? `${cart.length} ${plural(cart.length, {
+          {cartDetail.uniqCount
+            ? `${cartDetail.uniqCount} ${plural(cartDetail.uniqCount, {
                 one: "товар",
                 few: "товара",
                 many: "товаров",
-              })} / ${getTotalPrice(cart)} \u20BD`
+              })} / ${cartDetail.totalPrice} \u20BD`
             : "пусто"}
         </span>
       </div>
@@ -33,11 +33,7 @@ function Controls({ cart, setIsOpenModal }) {
 }
 
 Controls.propTypes = {
-  cart: PropTypes.arrayOf(
-    PropTypes.shape({
-      code: PropTypes.number,
-    })
-  ).isRequired,
+  cartDetail: PropTypes.object,
   setIsOpenModal: PropTypes.func,
 };
 

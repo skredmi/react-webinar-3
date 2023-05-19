@@ -1,44 +1,41 @@
-import React from "react";
+import React, { useCallback } from "react";
 import "./style.css";
 import PropTypes from "prop-types";
 import { cn as bem } from "@bem-react/classname";
 import Head from "../head";
 import List from "../list";
-import { getTotalPrice } from "../../utils";
+import Item from "../item";
 
-function Cart({
-  cart,
-  isOpenModal,
-  setIsOpenModal,
-  onDeleteCartItem,
-  buttonTitle,
-}) {
+function Cart({ cart, cartDetail, setIsOpenModal, onDeleteCartItem }) {
   const cn = bem("Cart");
 
+  const callbacks = {
+    cartItem: useCallback(
+      (item) => (
+        <Item item={item} onClick={onDeleteCartItem} buttonTitle="Удалить" />
+      ),
+      []
+    ),
+  };
+
   return (
-    <div className={`${cn()} ${isOpenModal && cn("opened")}`}>
-      <div className={cn("container")}>
-        <Head title="Корзина">
-          <button
-            onClick={() => {
-              setIsOpenModal(false);
-            }}
-          >
-            Закрыть
-          </button>
-        </Head>
-        <div className={cn("info")}>
-          <List
-            list={cart}
-            onClick={onDeleteCartItem}
-            buttonTitle={buttonTitle}
-          />
-        </div>
-        <div className={cn("totalPrice")}>
-          Итого <span>{getTotalPrice(cart)} &#8381;</span>
-        </div>
+    <>
+      <Head title="Корзина">
+        <button
+          onClick={() => {
+            setIsOpenModal(false);
+          }}
+        >
+          Закрыть
+        </button>
+      </Head>
+      <div className={cn("info")}>
+        <List list={cart} element={callbacks.cartItem} />
       </div>
-    </div>
+      <div className={cn("totalPrice")}>
+        Итого <span>{cartDetail.totalPrice} &#8381;</span>
+      </div>
+    </>
   );
 }
 
@@ -48,8 +45,7 @@ Cart.propTypes = {
       code: PropTypes.number,
     })
   ).isRequired,
-  buttonTitle: PropTypes.string,
-  isOpenModal: PropTypes.bool,
+  cartDetail: PropTypes.object,
   setIsOpenModal: PropTypes.func,
   onDeleteCartItem: PropTypes.func,
 };
