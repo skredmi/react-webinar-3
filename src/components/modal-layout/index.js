@@ -25,7 +25,7 @@ function ModalLayout(props) {
     return () => {
       resizeObserver.disconnect();
     }
-  });
+  }, []);
 
   return (
     <div className={cn()} ref={layout}>
