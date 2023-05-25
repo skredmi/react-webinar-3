@@ -7,16 +7,17 @@ import { numberFormat } from "../../utils";
 function CardItem({ card, onAdd }) {
   const cn = bem("CardItem");
 
-  console.log(card);
   return (
     <div className={cn()}>
       <div>{card.description}</div>
       <div>
         Страна производитель:{" "}
-        <span className={cn("info")}> {card.madeInF}</span>
+        <span className={cn("info")}>
+          {card.madeIn?.title} ({card.madeIn?.code})
+        </span>
       </div>
       <div>
-        Категория: <span className={cn("info")}>{card.categoryF}</span>
+        Категория: <span className={cn("info")}>{card.category?.title}</span>
       </div>
       <div>
         Год выпуска: <span className={cn("info")}>{card.edition}</span>
@@ -24,13 +25,26 @@ function CardItem({ card, onAdd }) {
       <div className={cn("price")}>
         Цена: <span>{numberFormat(card.price)} ₽</span>
       </div>
-      <button className={cn("button")} onClick={() => onAdd(card._id)}>Добавить</button>
+      <button className={cn("button")} onClick={() => onAdd(card._id)}>
+        Добавить
+      </button>
     </div>
   );
 }
 
-CardItem.propTypes = {};
+CardItem.propTypes = {
+  card: PropTypes.shape({
+    description: PropTypes.string,
+    madeIn: PropTypes.object,
+    category: PropTypes.object,
+    edition: PropTypes.number,
+    price: PropTypes.number,
+  }).isRequired,
+  onAdd: PropTypes.func,
+};
 
-CardItem.defaultProps = {};
+CardItem.defaultProps = {
+  onAdd: () => {},
+};
 
 export default memo(CardItem);

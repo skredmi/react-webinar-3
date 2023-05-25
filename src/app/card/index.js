@@ -4,7 +4,6 @@ import Head from "../../components/head";
 import BasketTool from "../../components/basket-tool";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
-import Pagination from "../../components/pagination";
 import CardItem from "../../components/card-item";
 import { useParams } from "react-router-dom";
 import ControlLayout from "../../components/control-layout";

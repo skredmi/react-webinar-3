@@ -1,8 +1,6 @@
-import {useCallback, useContext, useEffect, useState} from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Main from "./main";
 import Basket from "./basket";
-import useStore from "../store/use-store";
 import useSelector from "../store/use-selector";
 import Card from './card';
 import "./index.css";
