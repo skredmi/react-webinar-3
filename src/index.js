@@ -3,6 +3,7 @@ import App from './app';
 import Store from "./store";
 import {StoreContext} from "./store/context";
 import { BrowserRouter } from 'react-router-dom';
+import "./index.css"
 
 const store = new Store();
 

@@ -3,7 +3,6 @@ import Main from "./main";
 import Basket from "./basket";
 import useSelector from "../store/use-selector";
 import Card from './card';
-import "./index.css";
 
 /**
  * Приложение

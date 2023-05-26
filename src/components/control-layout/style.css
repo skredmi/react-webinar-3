@@ -4,11 +4,3 @@
   justify-content: space-between;
   padding-left: 20px;
 }
-
-.ControlLayout-navigate {
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 21px;
-  text-decoration-line: underline;
-  color: #0087e9;
-}
