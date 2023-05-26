@@ -1,4 +1,9 @@
 .Menu {
+  display: flex;
+  padding: 20px;
+}
+
+.Menu-mainLink {
   font-weight: 400;
   font-size: 18px;
   line-height: 21px;

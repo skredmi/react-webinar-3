@@ -1,12 +1,13 @@
 import { memo, useCallback, useEffect } from "react";
-import PageLayout from "../../components/page-layout";
-import Head from "../../components/head";
-import BasketTool from "../../components/basket-tool";
+import { useParams } from "react-router-dom";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
-import CardItem from "../../components/card-item";
-import { useParams } from "react-router-dom";
+import PageLayout from "../../components/page-layout";
+import Head from "../../components/head";
 import ControlLayout from "../../components/control-layout";
+import Menu from "../../components/menu";
+import BasketTool from "../../components/basket-tool";
+import CardItem from "../../components/card-item";
 
 function Card() {
   const store = useStore();
@@ -40,6 +41,7 @@ function Card() {
     <PageLayout>
       <Head title={select.card.title} />
       <ControlLayout>
+        <Menu />
         <BasketTool
           onOpen={callbacks.openModalBasket}
           amount={select.amount}
