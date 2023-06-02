@@ -14,5 +14,19 @@
   "basket.articles": {
     "one": "article",
     "other": "articles"
-  }
+  },
+  "card.madeIn": "Country of origin",
+  "card.category": "Category",
+  "card.edition": "Year of release",
+  "card.price": "Price",
+  "auth.login": "Login",
+  "auth.logout": "Logout",
+  "profile.title": "Profile",
+  "profile.name": "Name",
+  "profile.phone": "Phone",
+  "profile.email": "email",
+  "loginForm.title": "SignIn",
+  "loginForm.enter": "Enter",
+  "loginForm.login": "Login",
+  "loginForm.password": "Password"
 }

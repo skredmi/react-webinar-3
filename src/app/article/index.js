@@ -10,6 +10,7 @@ import Navigation from "../../containers/navigation";
 import Spinner from "../../components/spinner";
 import ArticleCard from "../../components/article-card";
 import LocaleSelect from "../../containers/locale-select";
+import Auth from '../../containers/auth';
 
 function Article() {
   const store = useStore();
@@ -26,6 +27,7 @@ function Article() {
     waiting: state.article.waiting,
   }));
 
+
   const {t} = useTranslate();
 
   const callbacks = {
@@ -35,6 +37,7 @@ function Article() {
 
   return (
     <PageLayout>
+      <Auth />
       <Head title={select.article.title}>
         <LocaleSelect/>
       </Head>
