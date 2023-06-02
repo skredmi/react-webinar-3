@@ -39,24 +39,20 @@ class LoginState extends StoreModule {
           waiting: false,
           data: user,
         });
-        window.location.replace("/");
       } else {
         this.setState({
           data: null,
-          isLogin: false,
           waiting: false,
           error: json.error?.data?.issues
             ?.map((error) => error.message)
             .join(", "),
         });
-        console.log(json);
       }
     } catch (error) {
       this.setState({
         ...this.getState(),
         error: error.message,
         waiting: false,
-        isLogin: false,
       });
     } finally {
       this.setState({
@@ -80,6 +76,7 @@ class LoginState extends StoreModule {
     } catch (error) {
       this.setState({
         ...this.getState(),
+        isLogin: false,
         error: error.message,
       });
     }

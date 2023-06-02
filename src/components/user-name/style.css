@@ -1,0 +1,12 @@
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.UserName {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15px;
+  color: #0087e9;
+  text-decoration-line: underline;
+}

@@ -4,6 +4,7 @@ import useSelector from "../../hooks/use-selector";
 import useTranslate from "../../hooks/use-translate";
 import SideLayout from "../../components/side-layout";
 import { Link } from "react-router-dom";
+import UserName from "../../components/user-name";
 
 function Auth() {
   const store = useStore();
@@ -23,7 +24,7 @@ function Auth() {
   return (
     <SideLayout side="end" padding="medium" gap="small">
       {select.isLogin && (
-        <Link to={"/profile"}>{select.user?.profile?.name}</Link>
+        <UserName link="/profile" name={select.user?.profile?.name} />
       )}
       {select.user ? (
         <button onClick={callbacks.onLogout}>{t("auth.logout")}</button>

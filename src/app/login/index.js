@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useState, useEffect } from "react";
 import useStore from "../../hooks/use-store";
 import useTranslate from "../../hooks/use-translate";
 import useSelector from "../../hooks/use-selector";
@@ -8,9 +8,11 @@ import Head from "../../components/head";
 import LocaleSelect from "../../containers/locale-select";
 import LoginForm from "../../components/login-form";
 import Auth from "../../containers/auth";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const store = useStore();
+  const navigate = useNavigate();
 
   const { t } = useTranslate();
 
@@ -18,6 +20,7 @@ function Login() {
     login: state.login.login,
     password: state.login.password,
     error: state.login.error,
+    isLogin: state.login.isLogin,
   }));
 
   const callbacks = {
@@ -50,6 +53,12 @@ function Login() {
     callbacks.onLogin(login, password);
     setData({ login: "", password: "" });
   };
+
+  useEffect(() => {
+    if (select.isLogin) {
+      navigate("/profile");
+    }
+  }, [select.isLogin]);
 
   return (
     <PageLayout>
