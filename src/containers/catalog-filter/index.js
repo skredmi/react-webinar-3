@@ -5,6 +5,7 @@ import useSelector from "../../hooks/use-selector";
 import Select from "../../components/select";
 import Input from "../../components/input";
 import SideLayout from "../../components/side-layout";
+import { buildTree } from "../../utils";
 
 function CatalogFilter() {
   const store = useStore();
@@ -15,8 +16,6 @@ function CatalogFilter() {
     category: state.catalog.params.category,
     categories: state.catalog.categories,
   }));
-
-  console.log("CATEGORIES", select.categories)
 
   const callbacks = {
     // Сортировка
@@ -36,6 +35,22 @@ function CatalogFilter() {
       [store]
     ),
   };
+  const tree = buildTree(select.categories);
+
+  function getTreeArray(node, level = 0, arr = [{ value: "", title: "Все" }]) {
+    const indent = "- ".repeat(level * 1);
+    for (let key in node) {
+      if (node.hasOwnProperty(key) && node[key].id !== undefined) {
+        // проверяем, что свойство принадлежит объекту, а не его прототипу и id не равен undefined
+        arr.push({ value: node[key].id, title: indent + key });
+        if (typeof node[key] === "object" && node[key] !== null) {
+          // проверяем, что значение свойства является объектом
+          getTreeArray(node[key], level + 1, arr);
+        }
+      }
+    }
+    return arr;
+  }
 
   const options = {
     sort: useMemo(
@@ -47,7 +62,7 @@ function CatalogFilter() {
       ],
       []
     ),
-    categories
+    categories: useMemo(() => getTreeArray(tree), [tree]),
   };
 
   const { t } = useTranslate();
@@ -69,6 +84,7 @@ function CatalogFilter() {
         onChange={callbacks.onSearch}
         placeholder={"Поиск"}
         delay={1000}
+        theme="big"
       />
       <button onClick={callbacks.onReset}>{t("filter.reset")}</button>
     </SideLayout>

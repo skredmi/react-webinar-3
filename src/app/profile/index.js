@@ -1,5 +1,4 @@
-import { memo, useCallback, useState } from "react";
-import useStore from "../../hooks/use-store";
+import { memo } from "react";
 import useTranslate from "../../hooks/use-translate";
 import useSelector from "../../hooks/use-selector";
 import Navigation from "../../containers/navigation";

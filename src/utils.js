@@ -33,3 +33,19 @@ export function codeGenerator(start = 0) {
 export function numberFormat(value, locale = 'ru-RU', options = {}) {
   return new Intl.NumberFormat(locale, options).format(value);
 }
+
+export function buildTree(categories, parent = null, visited = new Set()) {
+  let node = {};
+  categories
+    .filter(category => category.parent?._id === parent?._id)
+    .forEach(category => {
+      if (!visited.has(category._id)) {
+        visited.add(category._id);
+        node[category.title] = {
+          id: category._id,
+          ...buildTree(categories, category, visited)
+        };
+      }
+    });
+  return node;
+}
