@@ -17,6 +17,8 @@
 .LoginForm-label {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  width: 203px;
   gap: 1px;
   margin-bottom: 20px;
   font-weight: 400;

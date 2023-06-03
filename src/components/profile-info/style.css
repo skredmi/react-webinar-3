@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 62px 20px;
+  padding: 42px 0 0 20px;
 }
 
 .ProfileInfo-title {
@@ -15,10 +15,14 @@
 }
 
 .ProfileInfo-prop {
-  margin: 20px 0;
+  margin-bottom: 20px;
   display: flex;
   justify-content: flex-start;
   font-size: 18px;
+}
+
+.ProfileInfo-prop:last-child{
+  margin: 0;
 }
 
 .ProfileInfo-label {

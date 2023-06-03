@@ -10,7 +10,7 @@ function Auth() {
   const store = useStore();
 
   const select = useSelector((state) => ({
-    user: state.login.data,
+    userName: state.login.userName,
     isLogin: state.login.isLogin,
   }));
 
@@ -22,11 +22,11 @@ function Auth() {
   const { t } = useTranslate();
 
   return (
-    <SideLayout side="end" padding="medium" gap="small">
+    <SideLayout side="end" padding="diverse" gap="small">
       {select.isLogin && (
-        <UserName link="/profile" name={select.user?.profile?.name} />
+        <UserName link="/profile" name={select.userName} />
       )}
-      {select.user ? (
+      {select.userName ? (
         <button onClick={callbacks.onLogout}>{t("auth.logout")}</button>
       ) : (
         <Link to={"/login"}>

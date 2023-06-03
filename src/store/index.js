@@ -43,7 +43,9 @@ class Store {
    * modals: Object,
    * article: Object,
    * locale: Object,
-   * login: Object
+   * login: Object,
+   * profile: Object,
+   * category: Object
    * }}
    */
   getState() {

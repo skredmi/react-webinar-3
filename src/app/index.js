@@ -7,6 +7,7 @@ import Basket from "./basket";
 import Article from "./article";
 import Login from "./login";
 import Profile from "./profile";
+import useInit from "../hooks/use-init";
 
 /**
  * Приложение
@@ -18,7 +19,7 @@ function App() {
   const activeModal = useSelector((state) => state.modals.name);
 
   useEffect(() => {
-    store.actions.login.getUser();
+    store.actions.login.isAuth();
   }, []);
 
   return (

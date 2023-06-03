@@ -28,6 +28,7 @@ function Login() {
       (login, password) => store.actions.login.login(login, password),
       [store]
     ),
+    onResetError: useCallback(() => store.actions.login.resetError(), []),
   };
 
   const [data, setData] = useState({
@@ -55,10 +56,12 @@ function Login() {
   };
 
   useEffect(() => {
-    if (select.isLogin) {
-      navigate("/profile");
-    }
+    if (select.isLogin) navigate("/profile");
   }, [select.isLogin]);
+
+  useEffect(() => {
+    if (select.error) callbacks.onResetError();
+  }, []);
 
   return (
     <PageLayout>

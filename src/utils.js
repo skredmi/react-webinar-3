@@ -49,3 +49,17 @@ export function buildTree(categories, parent = null, visited = new Set()) {
     });
   return node;
 }
+
+export function isValidToken(token) {
+  if (typeof token !== "string") { // проверяем, что token является строкой
+      return false;
+  }
+  if (token.length !== 64) { // проверяем длину token
+      return false;
+  }
+  const regex = /^[0-9a-fA-F]+$/; // регулярное выражение для проверки наличия только шестнадцатеричных символов
+  if (!regex.test(token)) { // проверяем соответствие token регулярному выражению
+      return false;
+  }
+  return true; // если все проверки пройдены, возвращаем true
+}

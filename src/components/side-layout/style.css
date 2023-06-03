@@ -28,6 +28,10 @@
   padding: 20px;
 }
 
+.SideLayout_padding_diverse{
+  padding: 10px 20px;
+}
+
 .SideLayout_gap_small{
   gap: 20px;
 }
