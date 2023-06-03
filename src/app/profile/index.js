@@ -1,4 +1,5 @@
-import { memo, useEffect } from "react";
+import { memo, useEffect, useState } from "react";
+import useStore from "../../hooks/use-store";
 import useTranslate from "../../hooks/use-translate";
 import useSelector from "../../hooks/use-selector";
 import Navigation from "../../containers/navigation";
@@ -7,12 +8,12 @@ import Head from "../../components/head";
 import LocaleSelect from "../../containers/locale-select";
 import Auth from "../../containers/auth";
 import ProfileInfo from "../../components/profile-info";
-import { Navigate } from "react-router-dom";
-import useStore from "../../hooks/use-store";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const { t } = useTranslate();
   const store = useStore();
+  const navigate = useNavigate();
 
   const select = useSelector((state) => ({
     user: state.profile.user,
@@ -20,12 +21,12 @@ function Profile() {
   }));
 
   useEffect(() => {
-    store.actions.profile.getUser();
-  }, []);
-
-  if (!select.isLogin) {
-    return <Navigate to="/login" />;
-  }
+    if (!select.isLogin) {
+      navigate("/login");
+    } else {
+      store.actions.profile.getUser();
+    }
+  }, [select.isLogin]);
 
   return (
     <PageLayout>

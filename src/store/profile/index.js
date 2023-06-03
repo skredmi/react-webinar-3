@@ -3,14 +3,16 @@ import StoreModule from "../module";
 class ProfileState extends StoreModule {
   initState() {
     return {
-      waiting: false,
+      waiting: true,
       user: null,
+      auth: false,
     };
   }
 
   async getUser() {
     this.setState({
       ...this.getState(),
+      auth: false,
       waiting: true,
     });
     const token = localStorage.getItem("token");
@@ -27,11 +29,13 @@ class ProfileState extends StoreModule {
 
         this.setState({
           user: json.result,
+          auth: true,
           waiting: false,
         });
       } catch (e) {
         this.setState({
           user: null,
+          auth: false,
           waiting: false,
         });
       }
