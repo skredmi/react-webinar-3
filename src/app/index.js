@@ -18,9 +18,13 @@ function App() {
 
   const activeModal = useSelector((state) => state.modals.name);
 
-  useInit(() => {
-    store.actions.login.isAuth();
-  }, []);
+  useInit(
+    () => {
+      store.actions.login.isAuth();
+    },
+    [],
+    true
+  );
 
   return (
     <>

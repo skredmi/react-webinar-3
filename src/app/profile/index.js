@@ -10,6 +10,7 @@ import LocaleSelect from "../../containers/locale-select";
 import Auth from "../../containers/auth";
 import ProfileInfo from "../../components/profile-info";
 import { useNavigate } from "react-router-dom";
+import useInit from "../../hooks/use-init";
 
 function Profile() {
   const { t } = useTranslate();
@@ -21,12 +22,16 @@ function Profile() {
     waiting: state.profile.waiting,
   }));
 
-  useEffect(() => {
-    if (!select.isLogin) {
-      navigate("/login");
-    } else {
+  useInit(
+    () => {
       store.actions.profile.getUser();
-    }
+    },
+    [],
+    true
+  );
+
+  useEffect(() => {
+    if (!select.isLogin) navigate("/login");
   }, [select.isLogin]);
 
   return (
