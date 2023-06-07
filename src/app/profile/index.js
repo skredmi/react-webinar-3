@@ -22,13 +22,9 @@ function Profile() {
     waiting: state.profile.waiting,
   }));
 
-  useInit(
-    () => {
-      store.actions.profile.getUser();
-    },
-    [],
-    true
-  );
+  useInit(async () => {
+    await store.actions.profile.getUser();
+  }, []);
 
   useEffect(() => {
     if (!select.isLogin) navigate("/login");
