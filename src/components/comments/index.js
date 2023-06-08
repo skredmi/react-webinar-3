@@ -4,64 +4,38 @@ import { cn as bem } from "@bem-react/classname";
 import "./style.css";
 import ItemComment from "../item-comment";
 import CommentTextarea from "../comment-textarea";
-import { Link, useParams } from "react-router-dom";
-import { useDispatch, useSelector as useSelectorRedux } from "react-redux";
-import commentsActions from "../../store-redux/comments/actions";
-import useSelector from "../../hooks/use-selector";
-import useInit from "../../hooks/use-init";
+import { Link } from "react-router-dom";
 import transformComments from "../../utils/comments-transform";
 
-function Comments() {
+function Comments({
+  comments,
+  exists,
+  user,
+  isOpenAnswer,
+  addComment,
+  addAnswer,
+  handleChangeOpenAnswer,
+}) {
   const cn = bem("Comments");
-  const dispatch = useDispatch();
-  const params = useParams();
-  const [isOpenAnswer, setIsOpenAnswer] = useState();
 
-  useInit(() => {
-    dispatch(commentsActions.load(params.id));
-  }, [params.id]);
-
-  const select = useSelectorRedux((state) => ({
-    comments: state.comments.data,
-  }));
-
-  const transformedComments = transformComments(select.comments?.items);
-  const exists = useSelector((state) => state.session.exists);
-
-  const callbacks = {
-    addComment: useCallback((text) => {
-      dispatch(commentsActions.add(text, "article", params.id));
-    }, []),
-
-    addAnswer: useCallback(
-      (parentId) => (text) => {
-        dispatch(commentsActions.add(text, "comment", parentId));
-      },
-      []
-    ),
-    handleChangeOpenAnswer: useCallback((commentId) => {
-      setIsOpenAnswer(commentId);
-    }, []),
-  };
+  const transformedComments = transformComments(comments?.items);
 
   return (
     <div className={cn()}>
-      <div className={cn("title")}>Комментарии ({select.comments.count})</div>
+      <div className={cn("title")}>Комментарии ({comments.count})</div>
       {transformedComments?.map((comment) => (
         <ItemComment
           key={comment._id}
           comment={comment}
           exists={exists}
-          onAddComment={callbacks.addAnswer(comment._id)}
-          handleChangeOpenAnswer={callbacks.handleChangeOpenAnswer}
+          onAddComment={addAnswer(comment._id)}
+          handleChangeOpenAnswer={handleChangeOpenAnswer}
           isOpenAnswer={isOpenAnswer}
+          currentUser={user?._id === comment.author?._id}
         />
       ))}
       {exists && !isOpenAnswer && (
-        <CommentTextarea
-          title="комментарий"
-          onAddComment={callbacks.addComment}
-        />
+        <CommentTextarea title="комментарий" onAddComment={addComment} />
       )}
       {!exists && !isOpenAnswer && (
         <div>
@@ -73,6 +47,24 @@ function Comments() {
   );
 }
 
-Comments.propTypes = {};
+Comments.propTypes = {
+  comments: PropTypes.shape({
+    _id: PropTypes.string,
+    text: PropTypes.string,
+    dateCreate: PropTypes.string,
+    parent: PropTypes.shape({
+      _type: PropTypes.string,
+      _id: PropTypes.string,
+    }),
+  }).isRequired,
+  exists: PropTypes.bool,
+  user: PropTypes.shape({
+    id: PropTypes.string,
+  }),
+  addComment: PropTypes.func,
+  addAnswer: PropTypes.func,
+  handleChangeOpenAnswer: PropTypes.func,
+  isOpenAnswer: PropTypes.string,
+};
 
 export default memo(Comments);

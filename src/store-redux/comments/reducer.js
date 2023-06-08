@@ -2,6 +2,7 @@
 const initialState = {
   data: {},
   waiting: false,
+  reload: false
 }
 
 // Обработчик действий
@@ -20,7 +21,7 @@ function reducer(state = initialState, action) {
       return { ...state, data: {}, waiting: true};
   
     case "comments/add-success":
-      return { ...state, data: [...state.data, action.payload.data], waiting: false};
+      return { ...state, data: action.payload.data, waiting: false, reload: true};
       
     case "comments/add-error":
       return { ...state, data: {}, waiting: false};

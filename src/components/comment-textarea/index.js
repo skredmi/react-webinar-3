@@ -22,15 +22,17 @@ function CommentTextarea({ title, onAddComment, children }) {
         ref={ref}
       ></textarea>
       <div className={cn("buttons")}>
-      <button onClick={handleAddComment}>Отправить</button>
-      {children}
+        <button onClick={handleAddComment}>Отправить</button>
+        {children}
       </div>
     </div>
   );
 }
 
-CommentTextarea.propTypes = {};
-
-CommentTextarea.defaultProps = {};
+CommentTextarea.propTypes = {
+  title: PropTypes.string.isRequired,
+  onAddComment: PropTypes.func.isRequired,
+  children: PropTypes.node,
+};
 
 export default memo(CommentTextarea);

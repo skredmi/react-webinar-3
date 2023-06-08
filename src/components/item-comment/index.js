@@ -12,6 +12,7 @@ function ItemComment({
   onAddComment,
   handleChangeOpenAnswer,
   isOpenAnswer,
+  currentUser,
 }) {
   const cn = bem("ItemComment");
   const onhandleChangeOpenAnswer = () => {
@@ -22,7 +23,9 @@ function ItemComment({
   return (
     <div className={cn()} style={textStyles}>
       <div className={cn("info")}>
-        <div className={cn("user")}>{comment.author?.profile.name}</div>
+        <div className={currentUser ? cn("currentUser") : cn("user")}>
+          {comment.author?.profile.name}
+        </div>
         <div className={cn("date")}>{formatDate(comment?.dateCreate)}</div>
       </div>
       <div className={cn("text")}>{comment?.text}</div>
@@ -31,7 +34,7 @@ function ItemComment({
       </button>
       {isOpenAnswer === comment._id && exists && (
         <CommentTextarea title="ответ" onAddComment={onAddComment}>
-          <button onClick={() => handleChangeOpenAnswer(null)}>Отмена</button>
+          <button onClick={() => handleChangeOpenAnswer()}>Отмена</button>
         </CommentTextarea>
       )}
       {isOpenAnswer === comment._id && !exists && (
@@ -39,7 +42,7 @@ function ItemComment({
           <Link to="/login">Войдите</Link>, чтобы иметь возможность ответить.
           <button
             className={cn("cancel")}
-            onClick={() => handleChangeOpenAnswer(null)}
+            onClick={() => handleChangeOpenAnswer()}
           >
             Отмена
           </button>
@@ -49,8 +52,24 @@ function ItemComment({
   );
 }
 
-ItemComment.propTypes = {};
-
-ItemComment.defaultProps = {};
+ItemComment.propTypes = {
+  comment: PropTypes.shape({
+    _id: PropTypes.string,
+    text: PropTypes.string,
+    author: PropTypes.shape({
+      _id: PropTypes.string,
+    }).isRequired,
+    dateCreate: PropTypes.string,
+    parent: PropTypes.shape({
+      _type: PropTypes.string,
+      _id: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+  exists: PropTypes.bool,
+  onAddComment: PropTypes.func,
+  handleChangeOpenAnswer: PropTypes.func,
+  isOpenAnswer: PropTypes.string,
+  currentUser: PropTypes.bool,
+};
 
 export default memo(ItemComment);
