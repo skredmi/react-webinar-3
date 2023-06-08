@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 
 function ItemComment({
   comment,
-  comments,
   exists,
   onAddComment,
   handleChangeOpenAnswer,
@@ -16,41 +15,34 @@ function ItemComment({
 }) {
   const cn = bem("ItemComment");
   const onhandleChangeOpenAnswer = () => {
-    if (exists) handleChangeOpenAnswer(comment.id);
+    handleChangeOpenAnswer(comment._id);
   };
-
+  const paddingLeft = comment.paddingLeft ? comment.paddingLeft : "0px";
+  const textStyles = { paddingLeft: `${paddingLeft}` };
   return (
-    <div className={cn()}>
+    <div className={cn()} style={textStyles}>
       <div className={cn("info")}>
-        <div className={cn("user")}>{comment.author}</div>
-        <div className={cn("date")}>{formatDate(comment.date)}</div>
+        <div className={cn("user")}>{comment.author?.profile.name}</div>
+        <div className={cn("date")}>{formatDate(comment?.dateCreate)}</div>
       </div>
-      <div className={cn("text")}>{comment.text}</div>
+      <div className={cn("text")}>{comment?.text}</div>
       <button className={cn("button")} onClick={onhandleChangeOpenAnswer}>
         Ответить
       </button>
-      {comments?.map((childComment) => (
-        <div
-          key={childComment.id}
-          style={{ marginLeft: `${childComment.level * 30}px` }}
-        >
-          <ItemComment
-            comment={childComment}
-            exists={exists}
-            onAddComment={onAddComment}
-            handleChangeOpenAnswer={handleChangeOpenAnswer}
-            isOpenAnswer={isOpenAnswer}
-          />
-        </div>
-      ))}
-      {isOpenAnswer === comment.id && exists && (
+      {isOpenAnswer === comment._id && exists && (
         <CommentTextarea title="ответ" onAddComment={onAddComment}>
           <button onClick={() => handleChangeOpenAnswer(null)}>Отмена</button>
         </CommentTextarea>
-      )}{" "}
-      {isOpenAnswer === comment.id && !exists && (
+      )}
+      {isOpenAnswer === comment._id && !exists && (
         <div>
-          <Link to="/login">Войдите</Link>, чтобы иметь возможность ответить
+          <Link to="/login">Войдите</Link>, чтобы иметь возможность ответить.
+          <button
+            className={cn("cancel")}
+            onClick={() => handleChangeOpenAnswer(null)}
+          >
+            Отмена
+          </button>
         </div>
       )}
     </div>
