@@ -24,6 +24,7 @@ function Article() {
   const params = useParams();
 
   const [isOpenAnswer, setIsOpenAnswer] = useState();
+
   useInit(() => {
     //store.actions.article.load(params.id);
     dispatch(articleActions.load(params.id));
@@ -68,7 +69,7 @@ function Article() {
   useEffect(() => {
     if (select.reload) {
       dispatch(commentsActions.load(params.id));
-      setIsOpenAnswer()
+      setIsOpenAnswer();
     }
   }, [select.reload, params.id]);
 

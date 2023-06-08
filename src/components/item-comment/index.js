@@ -13,15 +13,12 @@ function ItemComment({
   handleChangeOpenAnswer,
   isOpenAnswer,
   currentUser,
+  level,
 }) {
   const cn = bem("ItemComment");
-  const onhandleChangeOpenAnswer = () => {
-    handleChangeOpenAnswer(comment._id);
-  };
-  const paddingLeft = comment.paddingLeft ? comment.paddingLeft : "0px";
-  const textStyles = { paddingLeft: `${paddingLeft}` };
+
   return (
-    <div className={cn()} style={textStyles}>
+    <div className={cn()} style={{ paddingLeft: `${30 * level}px` }}>
       <div className={cn("info")}>
         <div className={currentUser ? cn("currentUser") : cn("user")}>
           {comment.author?.profile.name}
@@ -29,7 +26,10 @@ function ItemComment({
         <div className={cn("date")}>{formatDate(comment?.dateCreate)}</div>
       </div>
       <div className={cn("text")}>{comment?.text}</div>
-      <button className={cn("button")} onClick={onhandleChangeOpenAnswer}>
+      <button
+        className={cn("button")}
+        onClick={() => handleChangeOpenAnswer(comment._id)}
+      >
         Ответить
       </button>
       {isOpenAnswer === comment._id && exists && (
@@ -68,7 +68,6 @@ ItemComment.propTypes = {
   exists: PropTypes.bool,
   onAddComment: PropTypes.func,
   handleChangeOpenAnswer: PropTypes.func,
-  isOpenAnswer: PropTypes.string,
   currentUser: PropTypes.bool,
 };
 

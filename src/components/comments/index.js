@@ -5,7 +5,8 @@ import "./style.css";
 import ItemComment from "../item-comment";
 import CommentTextarea from "../comment-textarea";
 import { Link } from "react-router-dom";
-import transformComments from "../../utils/comments-transform";
+import treeToList from "../../utils/tree-to-list";
+import listToTree from "../../utils/list-to-tree";
 
 function Comments({
   comments,
@@ -18,22 +19,31 @@ function Comments({
 }) {
   const cn = bem("Comments");
 
-  const transformedComments = transformComments(comments?.items);
+  const callbacks = {
+    renderComments: useCallback(() => {
+      if (comments?.items) {
+        return treeToList(listToTree(comments.items), (item, level) => {
+          return (
+            <ItemComment
+              key={item._id}
+              comment={item}
+              level={level}
+              exists={exists}
+              onAddComment={addAnswer(item._id)}
+              handleChangeOpenAnswer={handleChangeOpenAnswer}
+              isOpenAnswer={isOpenAnswer}
+              currentUser={user?._id === item.author?._id}
+            />
+          );
+        });
+      }
+    }, [comments, isOpenAnswer]),
+  };
 
   return (
     <div className={cn()}>
       <div className={cn("title")}>Комментарии ({comments.count})</div>
-      {transformedComments?.map((comment) => (
-        <ItemComment
-          key={comment._id}
-          comment={comment}
-          exists={exists}
-          onAddComment={addAnswer(comment._id)}
-          handleChangeOpenAnswer={handleChangeOpenAnswer}
-          isOpenAnswer={isOpenAnswer}
-          currentUser={user?._id === comment.author?._id}
-        />
-      ))}
+      {callbacks.renderComments()}
       {exists && !isOpenAnswer && (
         <CommentTextarea title="комментарий" onAddComment={addComment} />
       )}
@@ -64,7 +74,6 @@ Comments.propTypes = {
   addComment: PropTypes.func,
   addAnswer: PropTypes.func,
   handleChangeOpenAnswer: PropTypes.func,
-  isOpenAnswer: PropTypes.string,
 };
 
 export default memo(Comments);
