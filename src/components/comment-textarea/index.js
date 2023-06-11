@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { cn as bem } from "@bem-react/classname";
 import "./style.css";
 
-function CommentTextarea({ title, onAddComment, children, level }) {
+function CommentTextarea({ title, onAddComment, children }) {
   const cn = bem("CommentTextarea");
   const ref = useRef();
 
@@ -14,7 +14,7 @@ function CommentTextarea({ title, onAddComment, children, level }) {
   };
 
   return (
-    <div className={cn()} style={{ paddingLeft: `${Math.min(30 * level, 30)}px` }}>
+    <div className={cn()}>
       <div className={cn("title")}>Новый {title}</div>
       <textarea
         className={cn("field")}

@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  margin-bottom: 25px;
+  margin-top: 30px;
 }
 
 .ItemComment-info {
@@ -50,10 +50,6 @@
   cursor: pointer;
 }
 
-.ItemComment-children {
-  padding-left: 30px;
-}
-
 .ItemComment-cancel {
   font-weight: 400;
   font-size: 16px;
@@ -73,4 +69,13 @@
   text-decoration-line: underline;
   color: #0087E9;
   cursor: pointer;
+}
+
+.ItemComment-children {
+  width: 100%;
+  padding-left: 30px;
+}
+
+.ItemComment-sigin {
+  margin-top: 30px;
 }

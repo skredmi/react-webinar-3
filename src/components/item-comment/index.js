@@ -13,103 +13,61 @@ function ItemComment({
   isOpenAnswer,
   currentUser,
   level,
-  onLogin
+  onLogin,
 }) {
   const cn = bem("ItemComment");
 
-
-  /*  return (
-     <>
-       <div className={cn()} style={{ paddingLeft: `${Math.min(30 * level, 600)}px` }}>
-         <div className={cn("info")}>
-           <div className={currentUser ? cn("currentUser") : cn("user")}>
-             {comment.author?.profile.name}
-           </div>
-           <div className={cn("date")}>{formatDate(comment?.dateCreate)}</div>
-         </div>
-         <div className={cn("text")}>{comment?.text}</div>
-         <button
-           className={cn("button")}
-           onClick={() => handleChangeOpenAnswer(comment._id)}
-         >
-           Ответить
-         </button>
- 
-                 {comment.children.length > 0 && comment.children.map((childComment) => (
-           <ItemComment
-             key={childComment._id}
-             comment={childComment}
-             currentUser={currentUser}
-             onAddComment={onAddComment}
-             handleChangeOpenAnswer={handleChangeOpenAnswer}
-             level={level}
-             exists={exists}
-           />
-         ))}
- 
-         {
-           isOpenAnswer === comment._id && exists && (
-             <CommentTextarea title="ответ" onAddComment={onAddComment}>
-               <button onClick={() => handleChangeOpenAnswer()}>Отмена</button>
-             </CommentTextarea>
-           )
-         }
-         {
-           isOpenAnswer === comment._id && !exists && (
-             <div style={{ paddingLeft: `${Math.min(30 * level, 600)}px` }}>
-               <div onClick={onLogin} className={cn("login")}>Войдите</div>, чтобы иметь возможность ответить.
-               <button
-                 className={cn("cancel")}
-                 onClick={() => handleChangeOpenAnswer()}
-               >
-                 Отмена
-               </button>
-             </div>
-           )
-         }
-       </div>
-     </>
- 
-   );
-  */
   return (
-    <>
-      <div className={cn()} style={{ paddingLeft: `${Math.min(30 * level, 600)}px` }}>
-        {isOpenAnswer !== comment._id ? (
-          <>
-            <div className={cn("info")}>
-              <div className={currentUser ? cn("currentUser") : cn("user")}>
-                {comment.author?.profile.name}
-              </div>
-              <div className={cn("date")}>{formatDate(comment?.dateCreate)}</div>
-            </div>
-            <div className={cn("text")}>{comment?.text}</div>
-            <button
-              className={cn("button")}
-              onClick={() => handleChangeOpenAnswer(comment._id)}
-            >
-              Ответить
-            </button>
-
-          </>
-        ) : isOpenAnswer === comment._id && exists ? (
-          <CommentTextarea title="ответ" onAddComment={onAddComment} level={level}>
-            <button onClick={() => handleChangeOpenAnswer()}>Отмена</button>
-          </CommentTextarea>
-        ) : (
-          <>
-            <div style={{ paddingLeft: `${Math.min(30 * level, 30)}px` }}>
+    <div className={cn()}>
+      <div className={cn("info")}>
+        <div className={currentUser ? cn("currentUser") : cn("user")}>
+          {comment.author?.profile.name}
+        </div>
+        <div className={cn("date")}>{formatDate(comment?.dateCreate)}</div>
+      </div>
+      <div className={cn("text")}>{comment?.text}</div>
+      <button
+        className={cn("button")}
+        onClick={() => handleChangeOpenAnswer(comment._id)}
+      >
+        Ответить
+      </button>
+      <div className={cn('children')}>
+        {comment.children.length > 0 && comment.children.map((childComment) => (
+          <ItemComment
+            key={childComment._id}
+            comment={childComment}
+            currentUser={currentUser}
+            onAddComment={onAddComment}
+            handleChangeOpenAnswer={handleChangeOpenAnswer}
+            level={level}
+            exists={exists}
+            isOpenAnswer={isOpenAnswer}
+          />
+        ))}
+        {
+          isOpenAnswer === comment._id && exists && (
+            <CommentTextarea title="ответ" onAddComment={onAddComment}>
+              <button onClick={() => handleChangeOpenAnswer()}>Отмена</button>
+            </CommentTextarea>
+          )
+        }
+        {
+          isOpenAnswer === comment._id && !exists && (
+            <div className={cn("sigin")}>
               <div onClick={onLogin} className={cn("login")}>Войдите</div>, чтобы иметь возможность ответить.
-              <button className={cn("cancel")} onClick={() => handleChangeOpenAnswer()}>
+              <button
+                className={cn("cancel")}
+                onClick={() => handleChangeOpenAnswer()}
+              >
                 Отмена
               </button>
             </div>
-          </>
-        )}
+          )
+        }
       </div>
-    </>
+    </div>
   );
-
 }
 
 ItemComment.propTypes = {

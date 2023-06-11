@@ -16,6 +16,8 @@ import shallowequal from "shallowequal";
 import articleActions from "../../store-redux/article/actions";
 import commentsActions from "../../store-redux/comments/actions";
 import Comments from "../../components/comments";
+import treeToList from "../../utils/tree-to-list";
+import listToTree from "../../utils/list-to-tree";
 
 function Article() {
   const store = useStore();
@@ -66,6 +68,18 @@ function Article() {
     }, []),
   };
 
+  function formatedTreeComments() {
+    let tree = [];
+    let list = [];
+    let formatedComments = [];
+    if (select.comments.items && params.id) {
+      tree = listToTree(select.comments.items, params.id);
+      list = treeToList(tree, (item, level) => ({ ...item, level }));
+      formatedComments = listToTree(list, params.id);
+    }
+    return formatedComments
+  }
+
   return (
     <PageLayout>
       <TopHead />
@@ -80,15 +94,16 @@ function Article() {
           t={t}
         />
       </Spinner>
-      <Comments
-        comments={select.comments}
+      {select.comments.items && <Comments
+        comments={formatedTreeComments()}
         exists={exists}
         user={user}
         addComment={callbacks.addComment}
         addAnswer={callbacks.addAnswer}
         handleChangeOpenAnswer={callbacks.handleChangeOpenAnswer}
         isOpenAnswer={isOpenAnswer}
-      />
+        count={select.comments?.count}
+      />}
     </PageLayout>
   );
 }
