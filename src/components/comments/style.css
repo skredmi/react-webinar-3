@@ -10,3 +10,13 @@
   line-height: 28px;
   margin-bottom: 25px;
 }
+
+.Comments-login {
+  display: inline;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  text-decoration-line: underline;
+  color: #0087E9;
+  cursor: pointer;
+}

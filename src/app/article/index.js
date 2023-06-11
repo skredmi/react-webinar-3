@@ -66,13 +66,6 @@ function Article() {
     }, []),
   };
 
-  useEffect(() => {
-    if (select.reload) {
-      dispatch(commentsActions.load(params.id));
-      setIsOpenAnswer();
-    }
-  }, [select.reload, params.id]);
-
   return (
     <PageLayout>
       <TopHead />

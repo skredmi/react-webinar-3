@@ -36,6 +36,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
+  word-break: break-all;
 }
 
 .ItemComment-button {
@@ -61,5 +62,15 @@
   border: none;
   color: #666666;
   text-decoration: underline;
+  cursor: pointer;
+}
+
+.ItemComment-login {
+  display: inline;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  text-decoration-line: underline;
+  color: #0087E9;
   cursor: pointer;
 }

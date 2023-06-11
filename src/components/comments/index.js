@@ -4,7 +4,7 @@ import { cn as bem } from "@bem-react/classname";
 import "./style.css";
 import ItemComment from "../item-comment";
 import CommentTextarea from "../comment-textarea";
-import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import treeToList from "../../utils/tree-to-list";
 import listToTree from "../../utils/list-to-tree";
 
@@ -18,11 +18,13 @@ function Comments({
   handleChangeOpenAnswer,
 }) {
   const cn = bem("Comments");
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const callbacks = {
     renderComments: useCallback(() => {
       if (comments?.items) {
-        return treeToList(listToTree(comments.items), (item, level) => {
+        return treeToList(listToTree(comments.items, 'article'), (item, level) => {
           return (
             <ItemComment
               key={item._id}
@@ -33,11 +35,17 @@ function Comments({
               handleChangeOpenAnswer={handleChangeOpenAnswer}
               isOpenAnswer={isOpenAnswer}
               currentUser={user?._id === item.author?._id}
+              onLogin={callbacks.onLogin}
             />
+
           );
         });
       }
     }, [comments, isOpenAnswer]),
+
+    onLogin: useCallback(() => {
+      navigate('/login', { state: { back: location.pathname } });
+    }, [location.pathname]),
   };
 
   return (
@@ -45,11 +53,11 @@ function Comments({
       <div className={cn("title")}>Комментарии ({comments.count})</div>
       {callbacks.renderComments()}
       {exists && !isOpenAnswer && (
-        <CommentTextarea title="комментарий" onAddComment={addComment} />
+        <CommentTextarea title="комментарий" onAddComment={addComment}/>
       )}
       {!exists && !isOpenAnswer && (
         <div>
-          <Link to="/login">Войдите</Link>, чтобы иметь возможность
+          <div onClick={callbacks.onLogin} className={cn("login")}>Войдите</div>, чтобы иметь возможность
           комментировать
         </div>
       )}

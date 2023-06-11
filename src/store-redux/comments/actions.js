@@ -29,7 +29,7 @@ export default {
       dispatch({ type: "comments/add-start" });
       try {
         const res = await services.api.request({
-          url: `/api/v1/comments`,
+          url: `/api/v1/comments?fields=*,author(profile)`,
           method: "POST",
           body: JSON.stringify({
             parent: { _id: parentId, _type: type },
