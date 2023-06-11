@@ -14,37 +14,44 @@ function Comments({
   addComment,
   addAnswer,
   handleChangeOpenAnswer,
-  count
+  count,
 }) {
   const cn = bem("Comments");
-  const navigate = useNavigate()
-  const location = useLocation()
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const callbacks = {
     onLogin: useCallback(() => {
-      navigate('/login', { state: { back: location.pathname } });
+      navigate("/login", { state: { back: location.pathname } });
     }, [location.pathname]),
   };
-  console.log(comments)
+console.log(comments)
   return (
     <div className={cn()}>
       <div className={cn("title")}>Комментарии ({count})</div>
-      {comments.map((i) => (<ItemComment key={i._id} comment={i} level={i.level}
-        exists={exists}
-        onAddComment={addAnswer(i._id)}
-        handleChangeOpenAnswer={handleChangeOpenAnswer}
-        isOpenAnswer={isOpenAnswer}
-        currentUser={user?._id === i.author?._id}
-        onLogin={callbacks.onLogin}
-      />))}
+      {comments.map((i) => (
+        <ItemComment
+          key={i._id}
+          comment={i}
+          level={i.level}
+          exists={exists}
+          onAddComment={addAnswer(i._id)}
+          handleChangeOpenAnswer={handleChangeOpenAnswer}
+          isOpenAnswer={isOpenAnswer}
+          currentUser={user?._id === i.author?._id}
+          onLogin={callbacks.onLogin}
+        />
+      ))}
 
       {exists && !isOpenAnswer && (
         <CommentTextarea title="комментарий" onAddComment={addComment} />
       )}
       {!exists && !isOpenAnswer && (
         <div className={cn("signin")}>
-          <div onClick={callbacks.onLogin} className={cn("login")}>Войдите</div>, чтобы иметь возможность
-          комментировать
+          <div onClick={callbacks.onLogin} className={cn("login")}>
+            Войдите
+          </div>
+          , чтобы иметь возможность комментировать
         </div>
       )}
     </div>

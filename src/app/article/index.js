@@ -53,7 +53,7 @@ function Article() {
       (_id) => store.actions.basket.addToBasket(_id),
       [store]
     ),
-    addComment: useCallback((text) => {
+    addComment: useCallback((text, id) => {
       dispatch(commentsActions.add(text, "article", params.id));
     }, []),
 
@@ -77,7 +77,7 @@ function Article() {
       list = treeToList(tree, (item, level) => ({ ...item, level }));
       formatedComments = listToTree(list, params.id);
     }
-    return formatedComments
+    return formatedComments;
   }
 
   return (
@@ -94,16 +94,18 @@ function Article() {
           t={t}
         />
       </Spinner>
-      {select.comments.items && <Comments
-        comments={formatedTreeComments()}
-        exists={exists}
-        user={user}
-        addComment={callbacks.addComment}
-        addAnswer={callbacks.addAnswer}
-        handleChangeOpenAnswer={callbacks.handleChangeOpenAnswer}
-        isOpenAnswer={isOpenAnswer}
-        count={select.comments?.count}
-      />}
+      {select.comments.items && (
+        <Comments
+          comments={formatedTreeComments()}
+          exists={exists}
+          user={user}
+          addComment={callbacks.addComment}
+          addAnswer={callbacks.addAnswer}
+          handleChangeOpenAnswer={callbacks.handleChangeOpenAnswer}
+          isOpenAnswer={isOpenAnswer}
+          count={select.comments?.count}
+        />
+      )}
     </PageLayout>
   );
 }

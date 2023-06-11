@@ -1,4 +1,4 @@
-import { memo, useState, useEffect } from "react";
+import { memo } from "react";
 import PropTypes from "prop-types";
 import { cn as bem } from "@bem-react/classname";
 import "./style.css";
@@ -12,8 +12,8 @@ function ItemComment({
   handleChangeOpenAnswer,
   isOpenAnswer,
   currentUser,
-  level,
   onLogin,
+  level
 }) {
   const cn = bem("ItemComment");
 
@@ -32,39 +32,41 @@ function ItemComment({
       >
         Ответить
       </button>
-      <div className={cn('children')}>
-        {comment.children.length > 0 && comment.children.map((childComment) => (
-          <ItemComment
-            key={childComment._id}
-            comment={childComment}
-            currentUser={currentUser}
-            onAddComment={onAddComment}
-            handleChangeOpenAnswer={handleChangeOpenAnswer}
-            level={level}
-            exists={exists}
-            isOpenAnswer={isOpenAnswer}
-          />
-        ))}
-        {
-          isOpenAnswer === comment._id && exists && (
-            <CommentTextarea title="ответ" onAddComment={onAddComment}>
-              <button onClick={() => handleChangeOpenAnswer()}>Отмена</button>
-            </CommentTextarea>
-          )
-        }
-        {
-          isOpenAnswer === comment._id && !exists && (
-            <div className={cn("sigin")}>
-              <div onClick={onLogin} className={cn("login")}>Войдите</div>, чтобы иметь возможность ответить.
-              <button
-                className={cn("cancel")}
-                onClick={() => handleChangeOpenAnswer()}
-              >
-                Отмена
-              </button>
+      <div className={comment.level < 15 ? cn("children") : ""}>
+        {comment.children.length > 0 &&
+          comment.children.map((childComment) => (
+            <ItemComment
+              key={childComment._id}
+              comment={childComment}
+              currentUser={currentUser}
+              onAddComment={onAddComment}
+              handleChangeOpenAnswer={handleChangeOpenAnswer}
+              exists={exists}
+              isOpenAnswer={isOpenAnswer}
+              onLogin={onLogin}
+              level={level}
+            />
+          ))}
+
+        {isOpenAnswer === comment._id && exists && (
+          <CommentTextarea title="ответ" onAddComment={onAddComment}>
+            <button onClick={() => handleChangeOpenAnswer()}>Отмена</button>
+          </CommentTextarea>
+        )}
+        {isOpenAnswer === comment._id && !exists && (
+          <div className={cn("sigin")}>
+            <div onClick={onLogin} className={cn("login")}>
+              Войдите
             </div>
-          )
-        }
+            , чтобы иметь возможность ответить.
+            <button
+              className={cn("cancel")}
+              onClick={() => handleChangeOpenAnswer()}
+            >
+              Отмена
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

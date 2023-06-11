@@ -20,7 +20,7 @@ function reducer(state = initialState, action) {
       return { ...state, data: {}, waiting: true};
   
     case "comments/add-success":
-      return { ...state, data: action.payload.data, waiting: false};
+      return { ...state, data: [...state.data.items, action.payload.result], waiting: false};
       
     case "comments/add-error":
       return { ...state, data: {}, waiting: false};

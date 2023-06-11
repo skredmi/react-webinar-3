@@ -8,7 +8,7 @@ function CommentTextarea({ title, onAddComment, children }) {
   const ref = useRef();
 
   const handleAddComment = () => {
-    if (!ref.current.value.trim().length) return
+    if (!ref.current.value.trim().length) return;
     onAddComment(ref.current.value);
     ref.current.value = "";
   };
