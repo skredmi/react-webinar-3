@@ -53,7 +53,7 @@ function Article() {
       (_id) => store.actions.basket.addToBasket(_id),
       [store]
     ),
-    addComment: useCallback((text, id) => {
+    addComment: useCallback((text) => {
       dispatch(commentsActions.add(text, "article", params.id));
     }, []),
 

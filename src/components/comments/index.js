@@ -25,7 +25,7 @@ function Comments({
       navigate("/login", { state: { back: location.pathname } });
     }, [location.pathname]),
   };
-console.log(comments)
+
   return (
     <div className={cn()}>
       <div className={cn("title")}>Комментарии ({count})</div>
